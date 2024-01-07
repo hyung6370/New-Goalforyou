@@ -52,11 +52,11 @@ class HomeViewController: UIViewController {
                 self.showLogoutCode()
             }).disposed(by: disposeBag)
         
-        homeView.calendarView.delegate = self
-        homeViewModel.selectedDate
-            .subscribe(onNext: { [weak self] date in
-                self?.showCalendarModal(for: date)
-            }).disposed(by: disposeBag)
+//        homeView.calendarView.delegate = self
+//        homeViewModel.selectedDate
+//            .subscribe(onNext: { [weak self] date in
+//                self?.showCalendarModal(for: date)
+//            }).disposed(by: disposeBag)
     }
     
     private func showCalendarModal(for date: Date) {
@@ -66,6 +66,7 @@ class HomeViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
     }
+    
     
     private func navigationToAddGoal() {
         let addGoalVC = AddGoalViewController()
@@ -78,7 +79,14 @@ class HomeViewController: UIViewController {
         alertView.onActionButotnTapped = {
             do {
                 try Auth.auth().signOut()
-                self.navigationController?.popToRootViewController(animated: true)
+                
+                if let window = UIApplication.shared.windows.first {
+                    let rootViewController = LoginViewController()
+                    window.rootViewController = rootViewController
+                    window.makeKeyAndVisible()
+                    UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+                }
+            
                 alertView.dismiss()
             } catch {
                 print("Error signing out: \(error.localizedDescription)")
@@ -93,3 +101,4 @@ extension HomeViewController: FSCalendarDelegate {
         homeViewModel.selectDate(date)
     }
 }
+

@@ -72,6 +72,11 @@ class HomeView: UIView, FSCalendarDelegate {
         return calendar
     }()
     
+    let addGoalButton = UIButton().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        
+    }
+    
     private let todoLabel = UILabel().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "할 일 목록"
